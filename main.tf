@@ -1,8 +1,10 @@
 #PROVIDER
 provider "aws" {
   region                  = var.main_region
-  shared_credentials_file = "C:\\terraform\\DM\\credentials"
-  profile                 = "admin"
+  # shared_credentials_file = "C:\\terraform\\DM\\credentials"
+  # profile                 = "admin"
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
 }
 
 #DATA
@@ -23,7 +25,7 @@ module "vpc" {
 
 #EC2
 resource "aws_instance" "bas" {
-  ami                    = "ami-05f2ca4af81030b30"
+  ami                    = data.aws_ssm_parameter.windows
   instance_type          = "t2.large"
   key_name               = "itrams-dm-platform-uat-dmz-bh-keypair"
   subnet_id              = module.vpc.public_subnet1
@@ -227,12 +229,12 @@ resource "aws_ecs_cluster" "cluster" {
 #   }
 # }
 
-terraform {
-  backend "s3" {
-    bucket                  = "tfstate-cummin-dev"
-    dynamodb_table          = "terraform_state_locking"
-    key                     = "terraform.tfstate"
-    region                  = "us-east-1"
-    shared_credentials_file = "C:\\terraform\\DM\\credentials"
-  }
-}
+# terraform {
+#   backend "s3" {
+#     bucket                  = "tfstate-cummin-dev"
+#     dynamodb_table          = "terraform_state_locking"
+#     key                     = "terraform.tfstate"
+#     region                  = "us-east-1"
+#     shared_credentials_file = "C:\\terraform\\DM\\credentials"
+#   }
+# }

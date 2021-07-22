@@ -9,9 +9,11 @@ data "aws_caller_identity" "current" {}
 
 #PROVIDER
 provider "aws" {
-  region                  = var.region
-  shared_credentials_file = "C:\\terraform\\DM\\credentials"
-  profile                 = "admin"
+  region                  = var.main_region
+  # shared_credentials_file = "C:\\terraform\\DM\\credentials"
+  # profile                 = "admin"
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
 }
 
 #VPC
